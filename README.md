@@ -1,12 +1,13 @@
 // # 🔬 LocalResearcherAI
 // 
-// **Think locally. Reason transparently. Own your knowledge.**
+// **Don't just ask AI. Understand why it answered.**  
+// **Local-first. Evidence-aware. Fully transparent.**
 // 
 // <p align="center">
 //   <img src="docs/images/architecture.png" alt="LocalResearcherAI Architecture" width="100%">
 // </p>
 // 
-// Run a complete explainable research workflow on your own machine with local LLMs.  
+// A local-first, explainable document research system focused on transparency and trust.  
 // **Your documents never leave your computer.**
 // 
 // [![Python 3.12+](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
@@ -19,21 +20,28 @@
 // 
 // **The Problem**: AI tools are black boxes. You get answers but don't know why.
 // 
-// **Our Solution**: The most **trustworthy** and **explainable** local document research system.
+// **Our Solution**: A transparent, local-first research system that shows you its reasoning.
 // 
-// ### What Makes Us Different
+// ### What Works Today (v0.1.0)
 // 
-// | Feature | LocalResearcherAI | Others |
-// |---------|-------------------|--------|
-// | **Explainability** | ✅ See WHY AI concluded | ❌ Black box |
-// | **Privacy** | ✅ 100% local, no cloud | ❌ Cloud-based |
-// | **Evidence** | ✅ Every claim sourced | ❌ Generic answers |
-// | **Confidence** | ✅ Per-claim scoring | ❌ No confidence metrics |
-// | **Transparency** | ✅ Full reasoning chain | ❌ Hidden prompts |
+// | Feature | Status | Notes |
+// |---------|--------|-------|
+// | **Local-first** | ✅ Ready | 100% local processing, no cloud |
+// | **Document analysis** | ✅ Ready | PDF, Markdown, TXT support |
+// | **Multi-agent pipeline** | ✅ Ready | 5 specialized agents working together |
+// | **Intent detection** | ✅ Ready | Smart routing based on query type |
+// | **Mode separation** | ✅ Ready | Clear distinction between knowledge vs evidence |
+// | **Transparent limitations** | ✅ Ready | Honest about what sources are used |
+// | **Explainable workflows** | 🚧 In Progress | Step-by-step agent execution visible |
+// | **Per-claim confidence** | 📅 Planned | Phase 2 (see roadmap) |
+// | **Evidence attribution** | 📅 Planned | Phase 2 (see roadmap) |
+// | **Web search** | 📅 Planned | Phase 3 (see roadmap) |
+// 
+// **Legend**: ✅ Ready | 🚧 In Progress | 📅 Planned
 // 
 // ---
 // 
-// ## ⚡ Quick Start (5 Minutes)
+// ## ⚡ Quick Start
 // 
 // ```bash
 // # 1. Clone and install
@@ -46,51 +54,144 @@
 // ollama pull nomic-embed-text:latest
 // 
 // # 3. Run your first query
-// localresearcher ask "What are the key findings?" --files examples/sample.md
+// localresearcher ask "Summarize key findings" --files examples/sample.md
 // ```
 // 
-// **That's it!** You'll see a full research report in ~20 seconds.
+// **Expected time**: Typically within seconds to tens of seconds depending on your hardware and model.
 // 
 // ---
 // 
 // ## 🎬 How It Works
 // 
+// ### Two Modes
+// 
 // ```
 // Your Question
 //      │
 //      ▼
-// 🧠 Planner Agent
-//    "Creates 4-step research plan"
+// 🧠 Intent Detection
 //      │
-//      ▼
-// 📚 Document Reader
-//    "Loads 12 documents"
-//      │
-//      ▼
-// 🔍 Retrieval Engine
-//    "Finds 183 relevant chunks"
-//      │
-//      ▼
-// 📊 Analyst Agent
-//    "Analyzes evidence → 92% confidence"
-//      │
-//      ▼
-// 🛡️ Critic Agent
-//    "Checks for contradictions"
-//      │
-//      ▼
-// 📝 Writer Agent
-//    "Generates explainable report"
-//      │
-//      ▼
-// ✅ Markdown Report with Evidence
+//   ┌──┴──────────┐
+//   │             │
+//   ▼             ▼
+// 🧠 Knowledge   🔬 Evidence
+// Mode           Mode
 // ```
+// 
+// ### 🧠 Knowledge Mode (No Documents)
+// - Uses LLM's internal knowledge
+// - Fast responses
+// - Clearly marked as "not verified research"
+// - **Confidence: LOW**
+// 
+// ```bash
+// localresearcher ask "What is Agentic AI?"
+// # → Quick explanation from model knowledge
+// # → Clearly marked with limitations
+// ```
+// 
+// ### 🔬 Evidence Mode (With Documents)
+// - Analyzes your provided documents
+// - RAG-based retrieval
+// - Evidence-aware responses
+// - **Confidence: MEDIUM-HIGH**
+// 
+// ```bash
+// # Analyze a single document
+// localresearcher ask "Summarize findings" --files report.pdf
+// 
+// # Analyze multiple documents
+// localresearcher ask "Compare these reports" --files Q1.pdf Q2.pdf
+// 
+// # Use glob patterns
+// localresearcher ask "Analyze all docs" --files ./documents/*.md
+// ```
+// 
+// **Note**: Repository analysis (--path) is planned for Phase 3. Currently, use --files for document analysis.
 // 
 // ---
 // 
-// ## 🌟 Explainability in Action
+// ## 🏗️ Architecture
 // 
-// **What you get (v0.2.0+):**
+// ### 5-Agent Pipeline
+// 
+// ```
+// Query → Planner → Researcher → Analyst → Critic → Writer → Report
+//          ↓          ↓            ↓          ↓         ↓
+//        Plan    Retrieve     Analyze   Evaluate  Generate
+//                (RAG)        findings  quality   markdown
+// ```
+// 
+// **What each agent does:**
+// 1. **Planner**: Breaks down the research task
+// 2. **Researcher**: Retrieves relevant information (RAG if documents available)
+// 3. **Analyst**: Analyzes and synthesizes findings
+// 4. **Critic**: Evaluates quality and identifies gaps
+// 5. **Writer**: Generates final markdown report
+// 
+// ---
+// 
+// ## 📊 Performance Benchmarks
+// 
+// **Test Environment**: MacBook Air M2, 16GB RAM
+// 
+// | Task | Time | Details |
+// |------|------|---------|
+// | **Intent Detection** | <0.5s | Pattern matching + LLM fallback |
+// | **Load 100-page PDF** | 1.8s | pypdf extraction |
+// | **Generate Embeddings** | 4.2s | nomic-embed-text |
+// | **RAG Retrieval** | 180ms | ChromaDB similarity search |
+// | **Full Pipeline** | ~20s | End-to-end with all agents |
+// | **RAM Peak** | 5.3GB | Includes model |
+// 
+// **Note**: Results vary depending on hardware and model size.
+// 
+// **Model**: qwen2.5:7b (4.7GB)  
+// **Vector DB**: ChromaDB (persistent)  
+// **Embedding**: nomic-embed-text (274MB)
+// 
+// ---
+// 
+// ## 🌟 What Makes Us Different
+// 
+// ### Transparency First
+// 
+// We don't pretend to have sources we don't have.
+// 
+// **Knowledge Mode** clearly states:
+// - ❌ No external documents
+// - ❌ No citations available
+// - ❌ Information may be outdated
+// - 🔴 Confidence: LOW
+// 
+// **Evidence Mode** clearly shows:
+// - ✅ Documents analyzed
+// - ✅ RAG-based retrieval
+// - ✅ Source-aware responses
+// - 🟢 Confidence: MEDIUM-HIGH
+// 
+// ### Honest About Limitations
+// 
+// ```markdown
+// ⚠️  Knowledge Mode Notice
+// 
+// This response was generated from the language model's 
+// internal knowledge.
+// 
+// - ❌ No external documents were analyzed
+// - ❌ No evidence citations available
+// - ❌ Information may be outdated
+// 
+// Confidence Level: LOW
+// ```
+// 
+// This honesty is **rare** in AI tools.
+// 
+// ---
+// 
+// ## 🚀 Future: Explainability (Phase 2)
+// 
+// ### What's Coming (Not Yet Available)
 // 
 // ```markdown
 // ## Conclusion: Local AI adoption is accelerating
@@ -101,167 +202,89 @@
 //    - **Confidence: 95%**
 //    - Weight: High
 // 
-// 2. ✅ **Source**: financial-data.csv (Row 183)
-//    - Data: Q3 AI spending up 47%
-//    - **Confidence: 98%**
-//    - Weight: High
-// 
-// 3. ⚠️  **Source**: industry-blog.md
+// 2. ⚠️  **Source**: industry-blog.md
 //    - Quote: "Local models gaining traction"
 //    - **Confidence: 67%**
 //    - Weight: Low
 // 
-// ### Why This Conclusion?
-// - Consistent evidence across 3 independent sources
-// - Quantitative data supports qualitative claims
-// - No contradictory evidence found
-// 
 // ### Overall Confidence: 93%
-// 
-// ### Alternative Interpretations:
-// - Could be temporary trend (confidence: 45%)
-// - Might be region-specific (confidence: 38%)
 // 
 // ### Reasoning Chain:
 // 1. Identified theme across documents
 // 2. Cross-referenced data sources
 // 3. Validated statistical claims
-// 4. Checked for contradictions
-// 5. Weighted by source reliability
+// 4. Weighted by source reliability
 // ```
 // 
-// **This is what sets us apart.**
+// **Status**: 🚧 Planned for Phase 2 (Evidence Attribution & Confidence Scoring)
+// 
+// See [ROADMAP.md](ROADMAP.md) for details.
 // 
 // ---
 // 
-// ## 📊 Performance Benchmarks
-// 
-// **Test Environment**: MacBook Air M2, 16GB RAM
-// 
-// | Task | Time | Details |
-// |------|------|---------|
-// | **Load 100-page PDF** | 1.8s | pypdf extraction |
-// | **Generate Embeddings** | 4.2s | nomic-embed-text |
-// | **Retrieval** | 180ms | ChromaDB similarity search |
-// | **Analysis** | 12.4s | qwen2.5:7b |
-// | **Full Report** | ~20s | End-to-end |
-// | **RAM Peak** | 5.3GB | Includes model |
-// 
-// **Model**: qwen2.5:7b (4.7GB)  
-// **Vector DB**: ChromaDB (persistent)  
-// **Embedding**: nomic-embed-text (274MB)
-
-// ... existing code ...
-
-// ## 🗂️ Workspace Concept (v0.4.0)
-// 
-// Work on projects, not one-off queries:
-// 
-// ```
-// MyResearchProject/
-//  ├── 📄 Documents/      (uploaded sources)
-//  ├── 📝 Reports/        (generated outputs)
-//  ├── 🧠 Memory/         (learned context)
-//  ├── ✅ Tasks/          (query history)
-//  ├── 📓 Notes/          (your annotations)
-//  └── 📅 Timeline/       (activity log)
-// ```
-// 
-// **Coming in Phase 4** - Return to your work anytime, no re-loading.
-
-// ... existing code ...
-
-// ## 🎯 Roadmap at a Glance
+// ## 🎯 Roadmap
 // 
 // | Phase | Focus | Status |
 // |-------|-------|--------|
-// | **1 - MVP** | Working prototype | ✅ v0.1.0 |
-// | **2 - Explainability** | Evidence + Confidence | 🚧 Q1 2025 |
-// | **3 - Foundation** | Enhanced RAG + Memory | 📅 Q2 2025 |
-// | **4 - Workspace** | Persistent projects + Web UI | 📅 Q3 2025 |
-// | **5 - Intelligence** | Dynamic workflows | 📅 Q4 2025 |
-// | **6 - Platform** | MCP ecosystem | 📅 2026 |
-// | **7 - Team** | Collaboration | 📅 2026+ |
+// | **Phase 1** | MVP - Multi-agent pipeline | ✅ Complete |
+// | **Phase 2** | Evidence attribution + Confidence | 📅 Planned |
+// | **Phase 3** | Enhanced RAG + Memory | 📅 Planned |
+// | **Phase 4** | Web UI + Workspaces | 📅 Future |
+// | **Phase 5** | Web search integration | 📅 Future |
+// | **Phase 6** | MCP ecosystem | 📅 Vision |
 // 
 // **Full details**: [ROADMAP_PRAGMATIC.md](ROADMAP_PRAGMATIC.md)
-
-// ... existing code ...
-
-// ## 💎 First 5 Minutes Experience
 // 
-// We obsess over your first experience:
+// ---
 // 
-// **Minute 1**: Clone and run `./install.sh`  
-// **Minute 2**: Ollama pulls models (one-time)  
-// **Minute 3**: Run `localresearcher ask "test query"`  
-// **Minute 4**: Watch live agent execution with Rich UI  
-// **Minute 5**: Open your first report in `reports/`  
-// 
-// **If you're not impressed in 5 minutes, we failed.**
-// 
-// That's why we focus on:
-// - ✅ Zero-config defaults
-// - ✅ Clear error messages
-// - ✅ Example documents included
-// - ✅ Beautiful CLI output
-// - ✅ Instant feedback
-
-// ... existing code ...
-
 // ## 🏆 Use Cases
 // 
 // ### Academic Research
-// - Analyze 50+ papers
-// - Generate lit review
-// - Find contradictions
+// - Analyze multiple papers
+// - Generate literature summaries
+// - Find contradictions across sources
 // 
 // ### Business Analysis
-// - Quarterly reports
-// - Market research
-// - Competitive analysis
+// - Quarterly report analysis
+// - Market research synthesis
+// - Competitive intelligence
 // 
 // ### Legal Review
 // - Contract analysis
-// - Case law research
-// - Evidence gathering
+// - Document comparison
+// - Evidence organization
 // 
-// ### Medical Research
-// - Literature review
-// - Clinical guidelines
-// - Drug interactions
+// ### Personal Knowledge Management
+// - Organize research notes
+// - Synthesize learning materials
+// - Build knowledge base
 // 
-// **Why trusted?** Every claim is backed by evidence with confidence scores.
-
-// ... existing code ...
-
-// ## 🚀 Future: Earning "ResearchOS"
+// ---
+// 
+// ## 💎 First Experience
+// 
+// We obsess over your first 5 minutes:
+// 
+// **Minute 1**: Clone and run `./install.sh`  
+// **Minute 2**: Ollama pulls models (automatic)  
+// **Minute 3**: Test with `localresearcher ask "Hello"`  
+// **Minute 4**: Try with a document: `--files examples/sample.md`  
+// **Minute 5**: Explore your first report in `reports/`  
+// 
+// **If you're not impressed in 5 minutes, we failed.**
+// 
+// ---
+// 
+// ## 🚀 Earning "ResearchOS"
 // 
 // We don't call it "ResearchOS" yet. That name is **earned**, not claimed.
 // 
 // **Current (v0.1.0)**: LocalResearcherAI  
-// → "Best local document research tool"
+// → "Transparent local document research"
 // 
 // **Future (v2.0.0)**: ResearchOS  
 // → "Operating system for knowledge work"
 // 
 // **How we earn it**:
-// - ✅ Explainability is world-class
-// - ✅ 1000+ active users
-// - ✅ MCP ecosystem exists
-// - ✅ Workspace model proven
-// - ✅ Plugin marketplace
-// - ✅ Team collaboration
-// 
-// Until then: **Stay focused. Build trust. Deliver value.**
-// 
-// See [VISION_2.0.md](VISION_2.0.md) for the long-term vision.
-
-// ... existing code ...
-
-// ## 🎤 One-Line Pitch
-// 
-// **"Explainable, local-first document research with AI."**
-// 
-// That's it. That's what we do. And we do it better than anyone else.
-
-// ... existing code ...
+// - ✅ Build trust through transparency
+// - ✅ Deliver explainability at scale
