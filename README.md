@@ -5,7 +5,7 @@
  **Private by default. Transparent by design.**
  
  <p align="center">
-   <img src="docs/images/architecture.png" alt="LocalResearcherAI Architecture" width="100%">
+   <img src="architecture.png" alt="LocalResearcherAI Architecture" width="100%">
  </p>
  
  A local-first, explainable document research system focused on transparency and trust.  
