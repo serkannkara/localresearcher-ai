@@ -1,15 +1,5 @@
-"""Agents for LocalResearcherAI."""
+"""Agent implementations."""
 
-from localresearcher.agents.planner import PlannerAgent
-from localresearcher.agents.researcher import ResearcherAgent
-from localresearcher.agents.analyst import AnalystAgent
-from localresearcher.agents.critic import CriticAgent
-from localresearcher.agents.writer import WriterAgent
+from localresearcher.agents import planner, researcher, analyst, critic, writer
 
-__all__ = [
-    "PlannerAgent",
-    "ResearcherAgent",
-    "AnalystAgent",
-    "CriticAgent",
-    "WriterAgent",
-]
+__all__ = ["planner", "researcher", "analyst", "critic", "writer"]

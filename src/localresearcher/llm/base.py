@@ -33,3 +33,8 @@ class BaseLLMProvider(ABC):
     async def is_available(self) -> bool:
         """Check if the LLM provider is available."""
         pass
+    
+    @abstractmethod
+    async def close(self) -> None:
+        """Close the provider and cleanup resources."""
+        pass

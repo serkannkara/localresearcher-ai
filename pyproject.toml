@@ -7,7 +7,7 @@ name = "localresearcher"
 version = "0.1.0"
 description = "Local-first agentic research system using local LLMs"
 authors = [
-    {name = "Your Name", email = "your.email@example.com"}
+    {name = "Serkan Kara", email = "serkankara@example.com"}
 ]
 readme = "README.md"
 requires-python = ">=3.12"
@@ -65,10 +65,3 @@ target-version = ["py312"]
 
 [tool.mypy]
 python_version = "3.12"
-strict = true
-warn_return_any = true
-warn_unused_configs = true
-
-[tool.pytest.ini_options]
-asyncio_mode = "auto"
-testpaths = ["tests"]

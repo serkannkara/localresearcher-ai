@@ -1,14 +1,5 @@
-"""RAG pipeline for LocalResearcherAI."""
+"""RAG (Retrieval-Augmented Generation) components."""
 
-from localresearcher.rag.loader import load_document, get_loader
-from localresearcher.rag.chunker import TextChunker
-from localresearcher.rag.embeddings import EmbeddingProvider
-from localresearcher.rag.vector_store import VectorStore
+from localresearcher.rag import chunker, embeddings, loader, vector_store
 
-__all__ = [
-    "load_document",
-    "get_loader",
-    "TextChunker",
-    "EmbeddingProvider",
-    "VectorStore",
-]
+__all__ = ["chunker", "embeddings", "loader", "vector_store"]

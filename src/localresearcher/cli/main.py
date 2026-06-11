@@ -10,6 +10,10 @@ from rich.markdown import Markdown
 from localresearcher.core.config import settings
 from localresearcher.core.workflow import ResearchWorkflow
 from localresearcher.core.intent import IntentType
+from localresearcher.core.logging import setup_logging
+
+# Setup logging at module level
+setup_logging()
 
 app = typer.Typer(
     name="localresearcher",
